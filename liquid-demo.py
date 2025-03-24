@@ -21,14 +21,14 @@ def init():
 
 def get_wave_values():
     global wave_values
-    amplitude = 0
+    amplitude = .2
     frequency = 0
     x_cursor = 0
     sample_rate = math.pi/8
     wave_values = []
     for _ in range(size):
         wave_values.append(
-            int(round((math.sin(x_cursor)),1)*10)
+            int(round(amplitude*(math.sin(x_cursor)),1)*10)
             )
         x_cursor += sample_rate
 
