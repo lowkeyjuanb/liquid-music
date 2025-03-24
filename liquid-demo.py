@@ -1,17 +1,51 @@
-# Import math Library
-import math 
-ascii_elements = '·+*#%@░▒▓██'
-wave_row = []
-wave_matrix = []
+import math
+import time
+import numpy as np
 
-i = 0 # counter
-pi = math.pi # pi value
-n = 100 # Iteration number.
-for iterations in range(n):
-    while i < pi*n and i <= pi:
-        j = abs(round(math.sin(i),1))
-        j = (j*10) 
-        wave_row.append(ascii_elements[int(j)])
-        i+=pi/n
-wave_row = "".join(wave_row)
-print(wave_row)
+
+ascii_elements = '·+*#%@░▒▓██'
+global wave_row
+global wave_matrix
+global wave_values
+size = 100
+
+def init():
+    global wave_row
+    global wave_matrix
+    wave_row = []
+    wave_matrix = []
+    for _ in range(size):
+        wave_row.append(ascii_elements[0])
+    for _ in range(size):
+        wave_matrix.append(wave_row.copy())
+
+def get_wave_values():
+    global wave_values
+    amplitude = 0
+    frequency = 0
+    x_cursor = 0
+    sample_rate = math.pi/8
+    wave_values = []
+    for _ in range(size):
+        wave_values.append(
+            int(round((math.sin(x_cursor)),1)*10)
+            )
+        x_cursor += sample_rate
+
+    
+def draw():
+    global wave_values
+    global wave_matrix
+    offset = size/2 # to start in the middle
+    for _ in range(size):
+        wave_matrix[int(wave_values[_] + offset)][_] = ascii_elements[2] 
+
+def run():
+    global wave_matrix
+    init()
+    get_wave_values()
+    draw()
+    for i in wave_matrix:
+        print(' '.join(map(str, i)))
+
+run()
