@@ -1,4 +1,5 @@
 import math
+import os
 import time
 import numpy as np
 
@@ -19,7 +20,7 @@ def init():
     for _ in range(size):
         wave_matrix.append(wave_row.copy())
 
-def get_wave_values():
+def get_wave_values(x_offset):
     global wave_values
     amplitude = .2
     frequency = 0
@@ -28,7 +29,7 @@ def get_wave_values():
     wave_values = []
     for _ in range(size):
         wave_values.append(
-            int(round(amplitude*(math.sin(x_cursor)),1)*10)
+            int(round(amplitude*(math.sin(x_cursor + x_offset)),1)*10)
             )
         x_cursor += sample_rate
 
@@ -42,10 +43,13 @@ def draw():
 
 def run():
     global wave_matrix
-    init()
-    get_wave_values()
-    draw()
-    for i in wave_matrix:
-        print(' '.join(map(str, i)))
+    for _ in range(100):
+        init()
+        get_wave_values(_)
+        draw()
+        os.system('cls' if os.name == 'nt' else 'clear')
+        for i in wave_matrix:
+            print(''.join(map(str, i)))
+        time.sleep(0.1)  # Delay for animation
 
 run()
